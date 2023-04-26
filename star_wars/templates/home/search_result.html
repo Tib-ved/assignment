@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="mx-auto" style="width: 550px;">
+        <h3 class="font-italic text-center mb-4" style="color: #2f4367;">
+            Here's the planet that you searched for...
+        </h3>
+
+        <div class="card" style="width: 28rem;">
+            {% load static %}
+            {% load modulo %}
+            <img class="card-img-top" src="{% static 'images/planets/planet'%}{{ planet.swapi_id|modulo:4 }}.jpg"
+                height="100%" alt="Searched star wars planet image">
+
+            <div class="card-body text-center">
+                <h5 class="card-title"> {{ planet.name }} </h5>
+            </div>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">Rotation Period: {{ planet.rotation_period }}</li>
+                <li class="list-group-item">Diameter: {{ planet.diameter }}</li>
+                <li class="list-group-item">Climate: {{ planet.climate }}</li>
+                <li class="list-group-item">Population: {{ planet.population }}</li>
+            </ul>
+            <div class="card-body">
+                <a href="{% url 'update-favourite-planet' swapi_id=planet.swapi_id planet_name=planet.name %}"
+                    style="margin-left: 45%" class="card-link">
+                    {% if planet.is_favourite %}
+                        <i class="fa fa-heart" style="font-size:30px;color:#e42790"></i>
+                    {% else %}
+                        <i class="fa fa-heart-o" style="font-size:30px;color:#e42790"></i>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

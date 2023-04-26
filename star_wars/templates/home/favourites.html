@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <h1 class="font-italic text-center mb-4" style="color: #2f4367;">Favourites</h1>
+
+    <h2 class="font-italic text-center mb-4" style="color: #2f4367;">Favourite Movies</h2>
+    
+
+    {% if favourite_movies %}
+        <div class="mx-auto" style="width: 800px;">
+            <div class="row">
+            {% for favourite_movie in favourite_movies %}
+                <div class="card col-md-5 ml-4 mb-4" style="width:24rem;">
+                    {% load static %}
+                    {% load modulo %}
+                    <img src="{% static 'images/movies/movie'%}{{ favourite_movie.swapi_id|modulo:6 }}.jpeg"
+                        class="card-img-top" height="70%" alt="Your favourite Star Wars movie image">
+                    <div class="card-body row">
+                        <h5 class="card-title col-md-9"> {{ favourite_movie.title }} </h5>
+                    
+                        <a href="{% url 'update-favourite-movie' swapi_id=favourite_movie.swapi_id movie_title=favourite_movie.title %}"
+                            class="col-md-3">
+                            {% if favourite_movie.is_favourite %}
+                                <i class="fa fa-heart" style="font-size:30px;color:#e42790"></i>
+                            {% else %}
+                                <i class="fa fa-heart-o" style="font-size:30px;color:#e42790"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            </div>
+        </div>
+    {% else %}
+        <p class="font-italic text-center"> No favourite movies yet, please add some from Movies view!</p>
+    {% endif %}
+
+
+    <h2 class="font-italic text-center mb-4" style="color: #2f4367;">Favourite Planets</h2>
+    
+    {% if favourite_planets %}
+        <div class="mx-auto" style="width: 800px;">
+            <div class="row">
+
+            {% for favourite_planet in favourite_planets %}
+                <div class="card col-md-5 ml-4 mb-4" style="width:24rem;">
+                    {% load static %}
+                    {% load modulo %}
+                    <img src="{% static 'images/planets/planet'%}{{ favourite_planet.swapi_id|modulo:4 }}.jpg"
+                        class="card-img-top" height="70%" alt="Your favourite Star Wars planet image">
+                    <div class="card-body row">
+                        <h5 class="card-title col-md-9"> {{ favourite_planet.name }} </h5>
+                        <a href="{% url 'update-favourite-planet' swapi_id=favourite_planet.swapi_id planet_name=favourite_planet.name %}"
+                            class="col-md-3">
+                            {% if favourite_planet.is_favourite %}
+                                <i class="fa fa-heart" style="font-size:30px;color:#e42790"></i>
+                            {% else %}
+                                <i class="fa fa-heart-o" style="font-size:30px;color:#e42790"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            </div>
+        </div>
+    {% else %}
+        <p class="font-italic text-center"> No favourite plants yet, please add some from Planets view!</p>
+    {% endif %}
+
+{% endblock %}

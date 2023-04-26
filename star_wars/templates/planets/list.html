@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<h1 class="font-italic text-center mb-4" style="color: #2f4367;"> Planets </h1>
+    
+    <div class="mx-auto" style="width: 700px;">
+        {% for planet in planets %}    
+            <div class="card mb-4">
+                <div class="row no-gutters">
+                    <div class="col-md-6">
+                        {% load static %}
+                        {% load modulo %}
+                        <img src="{% static 'images/planets/planet'%}{{ planet.swapi_id|modulo:4 }}.jpg"
+                            class="card-img" height="100%" alt="A Star Wars planet image">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ planet.name }}</h5>
+                            <p class="card-text" style="font-size:14px">
+                                <span class="font-weight-bold">Created:</span> {{ planet.created }}
+                            </p>
+                            <p class="card-text" style="font-size:14px">
+                                <span class="font-weight-bold">Updated:</span> {{ planet.updated }}
+                            </p>
+                            <p class="card-text" style="font-size:14px">
+                                <span class="font-weight-bold">URL:</span> {{ planet.url }}
+                            </p>
+                            <a href="{% url 'update-favourite-planet' swapi_id=planet.swapi_id planet_name=planet.name %}"
+                                style="margin-left: 85%">
+                                {% if planet.is_favourite %}
+                                    <i class="fa fa-heart" style="font-size:30px;color:#e42790"></i>
+                                {% else %}
+                                    <i class="fa fa-heart-o" style="font-size:30px;color:#e42790"></i>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% load get_range %}
+                {% for page_number in 7|get_range %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'planet-list-paginated' page_number=page_number %}">
+                            {{ page_number }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}
